@@ -18,13 +18,62 @@ This adds a `jQuery.when2` function. The code borrows heavily from `jQuery.when`
 Usage
 =====
 
-Download a copy of `dist/jquery-when2-*.js` and include it in your HTML after including jQuery.
+Download your choice of the code `dist/jquery-when2-*.js` and include it in
+your HTML after including jQuery. Then you have the following possiblitites:
 
 ```javascript
-// Behave like $.when: wait for the deferred to finish and then resolve
-// and reject immediately if any error occurs.
+// Behave like $.when: wait for the deferred to finish and then resolve;
+// reject immediately if defer1 or defer2 rejects.
 $.when2([defer1, defer2])
+.done(function(){
+    // Results from all deferreds are in `arguments`.
+})
+.fail(function(index, error){
+    // The deferred given by `index` was rejected with the given error.
+});
 ```
+
+```javascript
+// Same as above, but a little more explicit.
+$.when2([defer1, defer2], {failOnFirstError: true})
+.done(function(){
+    // Results from all deferreds are in `arguments`.
+})
+.fail(function(index, error){
+    // The deferred given by `index` was rejected with the given error.
+});
+```
+
+```javascript
+// Don't reject if an underlying deferred rejects, keep collecting
+// results and pass them all back to `.done` callbacks. You'll need
+// to figure out which results are errors (if any).
+$.when2([defer1, defer2], {failOnFirstError: false})
+.done(function(){
+    // Results from all deferreds, including errors, are in `arguments`
+})
+.fail(function(){
+    // This can never happen with `failOnFirstError = true`.
+});
+```
+
+```javascript
+// Resolve the returned deferred as soon as any of the
+// passed deferreds is resolved. If a deferred is resolved
+// the `.done` callbacks will be called with two arguments, an index
+// (so you know which deferred resolved) and the error.
+$.when2([defer1, defer2], {resolveOnFirstSuccess: true})
+.done(function(index, result){
+    // The deferred given by index fired with the given result.
+});
+```
+
+```javascript
+$.when2([defer1, defer2]).progress(function(index, value){
+    // The deferred given by `index` reported a progress value.
+});
+```
+
 
 Development
 ===========
@@ -35,7 +84,14 @@ You should install `grunt` and `jshint`:
 
 To run the tests, either open `test/index.html` in your browser, or run
 
-    $ grunt qunit
+```shell
+$ grunt qunit
+Running "qunit:files" (qunit) task
+Testing test/index.html ...............OK
+>> 93 assertions passed (54ms)
+
+Done, without errors.
+```
 
 I copied some of the `jQuery.when` tests, but some were too complicated to
 get right for `when2` so I ended up adding a bunch of small tests as well.
