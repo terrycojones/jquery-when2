@@ -45,9 +45,9 @@ Download your choice of the code `dist/jquery-when2-*.js` and include it in
 your HTML after including jQuery. Then you have the following possiblitites:
 
 ```javascript
-// Behave like $.when: wait for the deferred to finish and then resolve;
-// reject immediately if defer1 or defer2 rejects.
-$.when2([defer1, defer2])
+// Behave like $.when: wait for all deferreds to finish and then resolve.
+// Reject immediately if any passed deferred rejects.
+$.when2([defer1, defer2, ...])
 .done(function(){
     // Results from all deferreds are in 'arguments'.
 })
@@ -58,7 +58,7 @@ $.when2([defer1, defer2])
 
 ```javascript
 // Same as above, but a little more explicit.
-$.when2([defer1, defer2], {failOnFirstError: true})
+$.when2([defer1, defer2, ...], {failOnFirstError: true})
 .done(function(){
     // Results from all deferreds are in 'arguments'.
 })
@@ -71,7 +71,7 @@ $.when2([defer1, defer2], {failOnFirstError: true})
 // Don't reject if an underlying deferred rejects, keep collecting
 // results and pass them all back to '.done' callbacks. You get
 // to figure out which results are errors (if any).
-$.when2([defer1, defer2], {failOnFirstError: false})
+$.when2([defer1, defer2, ...], {failOnFirstError: false})
 .done(function(){
     // Results from all deferreds, including errors, are in 'arguments'
 })
@@ -83,7 +83,7 @@ $.when2([defer1, defer2], {failOnFirstError: false})
 ```javascript
 // Resolve the returned deferred as soon as any of the
 // passed deferreds is resolved.
-$.when2([defer1, defer2], {resolveOnFirstSuccess: true})
+$.when2([defer1, defer2, ...], {resolveOnFirstSuccess: true})
 .done(function(index, result){
     // The deferred given by index fired with the given result.
 });
@@ -92,7 +92,7 @@ $.when2([defer1, defer2], {resolveOnFirstSuccess: true})
 ```javascript
 // Get progress information from all the passed deferreds. Once the
 // returned deferred has resolved, no further progress events are fired.
-$.when2([defer1, defer2])
+$.when2([defer1, defer2, ...])
 .progress(function(index, value){
     // The deferred given by 'index' reported a progress value.
 });
