@@ -1,0 +1,32 @@
+{
+    "name": "jquery-when2",
+    "version": "0.0.1",
+    "description": "A more flexible jQuery.when command for working with jQuery Deferred objects",
+    "main": "src/jquery-when2.js",
+    "scripts": {
+        "test": "help"
+  },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/terrycojones/jquery-when2.git"
+    },
+    "keywords": [
+        "jQuery",
+        "Deferreds",
+        "when"
+    ],
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-jshint": "~0.6.0",
+        "grunt-contrib-uglify": "~0.2.2",
+        "grunt-contrib-watch": "~0.5.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-qunit": "*",
+        "grunt-jsonlint": "*",
+        "qunit": "*"
+    },
+    "author": "Terry Jones <terry@jon.es>",
+    "license": "Apache",
+    "readmeFilename": "README.md",
+    "gitHead": "711f2839429b9ff055893287572d7e0b920fd211"
+}
