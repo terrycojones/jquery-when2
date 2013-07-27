@@ -7,19 +7,22 @@ This package adds a `jQuery.when2` function to
 working with jQuery Deferred objects.
 
 Given a set of deferreds to monitor, `when2` returns a deferred that can
-either
+either:
 
 1. resolve on the first success,
-1. fail on first error (the `jQuery.when` behavior), or
-1. resolve when all results (successes or errors) have been accumulated.
+1. fail on the first error (the `jQuery.when` behavior), or
+1. resolve when all results (successes or errors) have been collected.
 
-The API differences from `jQuery.when` are:
+You specify the behavior you want by passing an option to `when2`.
+
+API differences from `jQuery.when`
+==================================
 
 * `when2` must be called with a list as its first argument.
-* An `options` object may be passed as a second argument.
+* An `options` Javascript object may be passed as a second argument.
 * If `options.resolveOnFirstSuccess` is `true`, the deferred returned by
-  `when2` will be resolved as soon as any of the passed deferreds
-  resolves. In this case, done callbacks will be passed `index` and `value`
+  `when2` will resolve as soon as any of the passed deferreds
+  resolves. In this case, `.done` callbacks will be passed `index` and `value`
   args, where `index` is the index of the deferred that fired. If
   non-deferreds are in the arguments to `when2`, the first one seen will
   trigger the resolve (not very useful, but consistent).
@@ -33,8 +36,7 @@ The API differences from `jQuery.when` are:
   be `index` and `value`, indicating which deferred was rejected.
 * Any `.progress` callbacks added to the returned deferred are also called
   with `index` and `value` arguments so you can tell which deferred made
-  progress.  Once the `when2` returned deferred has fired, no further
-  progress events are fired.
+  progress.
 
 Usage
 =====
@@ -67,7 +69,7 @@ $.when2([defer1, defer2], {failOnFirstError: true})
 
 ```javascript
 // Don't reject if an underlying deferred rejects, keep collecting
-// results and pass them all back to '.done' callbacks. You'll need
+// results and pass them all back to '.done' callbacks. You get
 // to figure out which results are errors (if any).
 $.when2([defer1, defer2], {failOnFirstError: false})
 .done(function(){
@@ -88,6 +90,8 @@ $.when2([defer1, defer2], {resolveOnFirstSuccess: true})
 ```
 
 ```javascript
+// Get progress information from all the passed deferreds. Once the
+// returned deferred has resolved, no further progress events are fired.
 $.when2([defer1, defer2])
 .progress(function(index, value){
     // The deferred given by 'index' reported a progress value.
