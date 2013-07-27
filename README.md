@@ -28,14 +28,6 @@ The main differences from `jQuery.when` are:
   with `index` and `value` arguments so you can tell which deferred made
   progress.  Once the `when2` returned deferred has fired, no further
   progress events are fired.
-* `when2` always makes a new deferred (instead of trying to re-use the
-  single deferred it is given if it only has one argument).
-* It might be possible to implement `jQuery.when` in terms of
-  `jQuery.when2`. I tried that originally, but ran into difficulty so
-  decided to leave it for later (or never).
-* It would be easy to add convenience functions like
-  `jQuery.whenAnySuccess` or `jQuery.whenAllResolvedOrRejected` that just
-  called `when2` with the correct option.
 
 Usage
 =====
@@ -89,14 +81,15 @@ $.when2([defer1, defer2], {resolveOnFirstSuccess: true})
 ```
 
 ```javascript
-$.when2([defer1, defer2]).progress(function(index, value){
+$.when2([defer1, defer2])
+.progress(function(index, value){
     // The deferred given by 'index' reported a progress value.
 });
 ```
 
 
-Development
-===========
+Development notes
+=================
 
 You should install `grunt` and `jshint`:
 
@@ -120,8 +113,18 @@ tests](https://github.com/jquery/jquery/blob/master/test/unit/deferred.js),
 but some were too complicated to get right for `when2` so I ended up adding
 a bunch of small tests as well.
 
-Notes
-=====
+Note that `when2` always makes a new deferred. This differs from the `when`
+approach, which re-use the single deferred it is given if it only has one
+argument. This was necessary in order to be able to return `index`,
+`result` arguments in this case.
+
+It might be possible to implement `jQuery.when` in terms of
+`jQuery.when2`. I tried that originally, but ran into difficulty so
+decided to leave it for later (or never).
+
+It would be easy to add convenience functions like
+`jQuery.whenAnySuccess` or `jQuery.whenAllResolvedOrRejected` that just
+called `when2` with the correct option.
 
 The approach mirrors what you can do with
 [Twisted](http://twistedmatrix.com)'s
@@ -129,8 +132,8 @@ The approach mirrors what you can do with
 which gives you the same 3 behaviors: fire on first callback, fire on first
 errback, fire when everything is done (errors or not).
 
-A slightly radical possible future thing to add would be to co-opt the
-`.progress` callback and use it to instead relay `resolve` info (each call
-having an index & a value to show which of the passed deferreds had
-resolved).  A flag in `options` could request that behavior. It's a
-perversion but it's easy to think of ways in which that could be useful.
+A slightly radical possible enhancement would be to co-opt the `.progress`
+callback and use it to instead relay `resolve` info (each call having an
+index & a value to show which of the passed deferreds had resolved).  A
+flag in `options` could request that behavior. It's a perversion but it's
+easy to think of ways in which that could be useful.
