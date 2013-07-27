@@ -1,15 +1,22 @@
 jquery-when2
 ============
 
-jquery-when2 adds a `jQuery.when2` function to
+This package adds a `jQuery.when2` function to
 [jQuery](http://jquery.com/). The aim is to provide is a more flexible
 (than [jQuery.when](http://api.jquery.com/jQuery.when/)) command for
 working with jQuery Deferred objects.
 
-The main differences from `jQuery.when` are:
+Given a set of deferreds to monitor, `when2` returns a deferred that can
+either
+
+1. resolve on the first success,
+1. fail on first error (the `jQuery.when` behavior), or
+1. resolve when all results (successes or errors) have been accumulated.
+
+The API differences from `jQuery.when` are:
 
 * `when2` must be called with a list as its first argument.
-* An options object may be passed as a second argument.
+* An `options` object may be passed as a second argument.
 * If `options.resolveOnFirstSuccess` is `true`, the deferred returned by
   `when2` will be resolved as soon as any of the passed deferreds
   resolves. In this case, done callbacks will be passed `index` and `value`
