@@ -164,7 +164,7 @@ test( "jQuery.when2 - fail pending/reject", function() {
 	defer1.reject( 1 );
 });
 
-test( "jQuery.when2 - fail pending/reject (failOnFirstError true)", function() {
+test( "jQuery.when2 - fail pending/reject (rejectOnFirstError true)", function() {
 
 	expect( 2 );
 
@@ -172,7 +172,7 @@ test( "jQuery.when2 - fail pending/reject (failOnFirstError true)", function() {
 		defer2 = jQuery.Deferred();
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: true } )
+		      { rejectOnFirstError: true } )
 	.fail(function( index, value ) {
 		deepEqual( [ index, value ], [ 0, 1 ], "pending/reject => fail" );
 		strictEqual( this, defer1.promise(), "pending/reject context" );
@@ -198,7 +198,7 @@ test( "jQuery.when2 - fail resolve/reject", function() {
 	defer2.reject( 2 );
 });
 
-test( "jQuery.when2 - fail resolve/reject (failOnFirstError true)", function() {
+test( "jQuery.when2 - fail resolve/reject (rejectOnFirstError true)", function() {
 
 	expect( 2 );
 
@@ -206,7 +206,7 @@ test( "jQuery.when2 - fail resolve/reject (failOnFirstError true)", function() {
 		defer2 = jQuery.Deferred();
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: true } )
+		      { rejectOnFirstError: true } )
 	.fail(function( index, value ) {
 		deepEqual( [ index, value ], [ 1, 2 ], "resolve/reject => fail" );
 		strictEqual( this, defer2.promise(), "resolve/reject context" );
@@ -216,7 +216,7 @@ test( "jQuery.when2 - fail resolve/reject (failOnFirstError true)", function() {
 	defer2.reject( 2 );
 });
 
-test( "jQuery.when2 - fail resolve/reject (failOnFirstError true, resolveOnFirstSuccess true)", function() {
+test( "jQuery.when2 - fail resolve/reject (rejectOnFirstError true, resolveOnFirstSuccess true)", function() {
 
 	expect( 2 );
 
@@ -224,7 +224,7 @@ test( "jQuery.when2 - fail resolve/reject (failOnFirstError true, resolveOnFirst
 		defer2 = jQuery.Deferred();
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: true, resolveOnFirstSuccess: true } )
+		      { rejectOnFirstError: true, resolveOnFirstSuccess: true } )
 	.done(function( index, value ) {
 		deepEqual( [ index, value ], [ 0, 1 ], "resolve/reject => done" );
 		strictEqual( this, defer1.promise(), "resolve/reject context" );
@@ -237,7 +237,7 @@ test( "jQuery.when2 - fail resolve/reject (failOnFirstError true, resolveOnFirst
 	defer2.reject( 2 );
 });
 
-test( "jQuery.when2 - fail reject/resolve (failOnFirstError true, resolveOnFirstSuccess true)", function() {
+test( "jQuery.when2 - fail reject/resolve (rejectOnFirstError true, resolveOnFirstSuccess true)", function() {
 
 	expect( 2 );
 
@@ -245,7 +245,7 @@ test( "jQuery.when2 - fail reject/resolve (failOnFirstError true, resolveOnFirst
 		defer2 = jQuery.Deferred();
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: true, resolveOnFirstSuccess: true } )
+		      { rejectOnFirstError: true, resolveOnFirstSuccess: true } )
 	.fail(function( index, value ) {
 		deepEqual( [ index, value ], [ 0, 1 ], "reject/resolve => done" );
 		strictEqual( this, defer1.promise(), "reject/resolve context" );
@@ -258,7 +258,7 @@ test( "jQuery.when2 - fail reject/resolve (failOnFirstError true, resolveOnFirst
 	defer2.resolve( 2 );
 });
 
-test( "jQuery.when2 - fail (failOnFirstError false) reject/resolve", function() {
+test( "jQuery.when2 - fail (rejectOnFirstError false) reject/resolve", function() {
 
 	expect( 3 );
 
@@ -266,7 +266,7 @@ test( "jQuery.when2 - fail (failOnFirstError false) reject/resolve", function() 
 		defer2 = jQuery.Deferred();
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: false } )
+		      { rejectOnFirstError: false } )
 	.done(function( a, b ) {
 		deepEqual( [ a, b ], [ 1, 2 ], "reject/resolve => done" );
 		strictEqual( this[0], defer1.promise(), "reject/resolve context 1" );
@@ -286,7 +286,7 @@ test( "jQuery.when2 - progress notify/notify", function() {
 		count = 0;
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: false } )
+		      { rejectOnFirstError: false } )
 	.progress(function( index, value ) {
 		if ( count === 0 ) {
 			deepEqual( [ index, value ], [ 0, 1 ], "notify 1 => progress" );
@@ -314,7 +314,7 @@ test( "jQuery.when2 - progress no notify after resolve", function() {
 		count = 0;
 
 	jQuery.when2( [ defer1, defer2 ],
-		      { failOnFirstError: false } )
+		      { rejectOnFirstError: false } )
 	.progress(function( index, value ) {
 		if ( count === 0 ) {
 			deepEqual( [ index, value ], [ 0, 1 ], "notify 1 => progress" );

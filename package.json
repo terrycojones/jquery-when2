@@ -1,6 +1,6 @@
 {
     "name": "jquery-when2",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A more flexible jQuery.when command for working with jQuery Deferred objects",
     "main": "src/jquery-when2.js",
     "scripts": {
